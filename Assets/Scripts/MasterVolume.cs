@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -8,50 +5,44 @@ public class MasterVolume : MonoBehaviour
 {
     [SerializeField] private AudioMixerGroup _mixerGroup;
 
-    [SerializeField] private AudioSource _buttonOneSound;
-    [SerializeField] private AudioSource _buttonTwoSound;
-    [SerializeField] private AudioSource _buttonThreeSound;
-
-    private bool _isSaundOn;
+    private string _soundType;
+    private bool _isSaund = true;
     private float _minVolume = -80;
     private float _maxVolume = 0;
-    private float _nawVolume = 0;
+    private float _nowVolume;
 
-    public void ToggleVolume(bool enable)
+    public void ToggleVolume()
     {
-        if (enable)
-            _mixerGroup.audioMixer.SetFloat("MaxterVolume", _minVolume);
+        if (!_isSaund)
+            _mixerGroup.audioMixer.SetFloat("MasterVolume", _nowVolume);
         else
-            _mixerGroup.audioMixer.SetFloat("MaxterVolume", _nawVolume);
+            _mixerGroup.audioMixer.SetFloat("MasterVolume", _minVolume);
+
+        _isSaund = !_isSaund;
     }
 
-    public void AllVolumeChanges(float newVolume)
+    public void SetSoundType(string soundType)
     {
-        _mixerGroup.audioMixer.SetFloat("MaxterVolume", Mathf.Lerp(_minVolume, _maxVolume, newVolume));
+        _soundType = soundType;
     }
 
-    public void MusicVolumeChanges(float newVolume)
+    public void VolumeChanges(float volume)
     {
-        _mixerGroup.audioMixer.SetFloat("MusicVolume", Mathf.Lerp(_minVolume, _maxVolume, newVolume));
+        float nowVolume = 0;
+
+        if (!_isSaund)
+            _mixerGroup.audioMixer.SetFloat("MasterVolume", _minVolume);
+        else
+            _mixerGroup.audioMixer.SetFloat(_soundType, nowVolume = Mathf.Lerp(_minVolume, _maxVolume, volume));
+
+        if (_soundType == "MasterVolume")
+            _nowVolume = nowVolume;
     }
 
-    public void EffectsVolumeChanges(float newVolume)
+    public void PlaySaund(AudioSource audioSource)
     {
-        _mixerGroup.audioMixer.SetFloat("EffectsVolume", Mathf.Lerp(_minVolume, _maxVolume, newVolume));
-    }
+        AudioClip clip = audioSource.clip;
 
-    public void PlaySaundFirstButton()
-    {
-        _buttonOneSound.Play();
-    }
-
-    public void PlaySaundSecondButton()
-    {
-        _buttonTwoSound.Play();
-    }
-
-    public void PlaySaundThreeButton()
-    {
-        _buttonThreeSound.Play();
+        audioSource.PlayOneShot(clip);
     }
 }
