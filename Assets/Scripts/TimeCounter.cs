@@ -6,7 +6,7 @@ public class TimeCounter : MonoBehaviour
 {
     [SerializeField] private Text _text;
 
-    private Coroutine newCoroutine;
+    private Coroutine _coroutine;
     private float _counterStep = 0.5f;
     private float _counterTimer;
 
@@ -14,19 +14,19 @@ public class TimeCounter : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            if (newCoroutine == null)
+            if (_coroutine == null)
             {
-                newCoroutine = StartCoroutine(nameof(StartCounter));
+                _coroutine = StartCoroutine(nameof(Begin));
             }
             else
             {
-                StopCoroutine(newCoroutine);
-                newCoroutine = null;
+                StopCoroutine(_coroutine);
+                _coroutine = null;
             }
         }
     }
 
-    private IEnumerator StartCounter()
+    private IEnumerator Begin()
     {
         WaitForSeconds waitForSeconds = new WaitForSeconds(_counterStep);
 
