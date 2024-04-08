@@ -6,7 +6,7 @@ public class MasterVolume : MonoBehaviour
     [SerializeField] private AudioMixerGroup _mixerGroup;
 
     private string _soundType;
-    private bool _isSaund = true;
+    private bool _isSaund = false;
     private float _minVolume = -80;
     private float _maxVolume = 0;
     private float _nowVolume;
