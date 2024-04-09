@@ -41,8 +41,6 @@ public class MasterVolume : MonoBehaviour
 
     public void PlaySaund(AudioSource audioSource)
     {
-        AudioClip clip = audioSource.clip;
-
-        audioSource.PlayOneShot(clip);
+        audioSource.PlayOneShot(audioSource.clip);
     }
 }
