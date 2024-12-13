@@ -28,7 +28,7 @@ public class MasterVolume : MonoBehaviour
 
     public void VolumeChanges(float volume)
     {
-        float nowVolume = 0;
+        float nowVolume = _nowVolume;
 
         if (!_isSaund)
             _mixerGroup.audioMixer.SetFloat("MasterVolume", _minVolume);
