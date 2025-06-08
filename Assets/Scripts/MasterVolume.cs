@@ -14,7 +14,9 @@ public class MasterVolume : MonoBehaviour
     public void ToggleVolume()
     {
         if (!_isSaund)
+        {
             _mixerGroup.audioMixer.SetFloat("MasterVolume", _nowVolume);
+        }
         else
         {
             _mixerGroup.audioMixer.GetFloat("MasterVolume", out float volume);
